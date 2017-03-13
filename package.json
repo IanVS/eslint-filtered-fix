@@ -1,0 +1,36 @@
+{
+  "name": "eslint-fix",
+  "version": "0.0.1",
+  "description": "Gain more control over how ESLint fixes are applied.",
+  "main": "index.js",
+  "bin": {
+    "eslint-fix": "./bin/eslint-fix.js"
+  },
+  "files": [
+      "README.md",
+      "LICENSE.md",
+      "src",
+      "bin",
+  ],
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "eslint",
+    "fix",
+    "autofix"
+  ],
+  "author": "Ian VanSchooten <ian.vanschooten+npm@gmail.com>",
+  "repository": "ianvs/eslint-fix",
+  "bugs": "https://github.com/ianvs/eslint-fix/issues/",
+  "license": "MIT",
+  "peerDependencies": {
+    "eslint": ">=3.16.1"
+  },
+  "dependencies": {
+    "optionator": "^0.8.2"
+  },
+  "devDependencies": {
+    "jest": "^19.0.2"
+  }
+}
