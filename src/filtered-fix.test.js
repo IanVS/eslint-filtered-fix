@@ -1,17 +1,17 @@
 /* eslint-env jest */
 
 const path = require('path');
-const fixer = require('./fixer');
+const filteredFix = require('./filtered-fix');
 
-describe('fixer', () => {
+describe('filtered-fix', () => {
     describe('makeFixer()', () => {
         it('returns a function', () => {
-            const fixFunc = fixer.makeFixer({rules: ['semi']});
+            const fixFunc = filteredFix.makeFixer({rules: ['semi']});
             expect(typeof fixFunc).toBe('function');
         });
 
         it('returns false if rules array is not provided', () => {
-            const fixFunc = fixer.makeFixer();
+            const fixFunc = filteredFix.makeFixer();
             expect(fixFunc).toBe(false);
         });
 
@@ -27,12 +27,12 @@ describe('fixer', () => {
             };
 
             it('returns true if called with a message having a ruleId in the provided rules array', () => {
-                const fixFunc = fixer.makeFixer({rules: ['eqeqeq']});
+                const fixFunc = filteredFix.makeFixer({rules: ['eqeqeq']});
                 expect(fixFunc(eslintMessage)).toBe(true);
             });
 
             it('returns false if called with a message having a ruleId not in the provided rules array', () => {
-                const fixFunc = fixer.makeFixer({rules: ['semi']});
+                const fixFunc = filteredFix.makeFixer({rules: ['semi']});
                 expect(fixFunc(eslintMessage)).toBe(false);
             });
         });
@@ -41,10 +41,10 @@ describe('fixer', () => {
     describe('calculateFixes()', () => {
         it('does not calculate fixes to rules not specified', () => {
             const filepath = path.resolve(path.join(__dirname, '../fixtures/no-semi.js'));
-            const fixFunc = fixer.makeFixer({rules: ['eqeqeq']});
+            const fixFunc = filteredFix.makeFixer({rules: ['eqeqeq']});
             const eslintOptions = {fix: fixFunc};
-            const eslintCli = fixer.getEslintCli(eslintOptions);
-            const report = fixer.calculateFixes([filepath], eslintCli);
+            const eslintCli = filteredFix.getEslintCli(eslintOptions);
+            const report = filteredFix.calculateFixes([filepath], eslintCli);
             expect(report.errorCount).toBe(1);
             expect(report.results[0].filePath).toBe(filepath);
             expect(report.results[0].output).toBeUndefined()
@@ -52,20 +52,20 @@ describe('fixer', () => {
 
         it('calculates fixes if rule is specified', () => {
             const filepath = path.resolve(path.join(__dirname, '../fixtures/no-semi.js'));
-            const fixFunc = fixer.makeFixer({rules: ['semi']});
+            const fixFunc = filteredFix.makeFixer({rules: ['semi']});
             const eslintOptions = {fix: fixFunc};
-            const eslintCli = fixer.getEslintCli(eslintOptions);
-            const report = fixer.calculateFixes([filepath], eslintCli);
+            const eslintCli = filteredFix.getEslintCli(eslintOptions);
+            const report = filteredFix.calculateFixes([filepath], eslintCli);
             expect(report.errorCount).toBe(0);
             expect(report.results[0].output).toBe('var foo = 42;\n');
         });
 
         it('calculates fixes for multiple rules', () => {
             const filepath = path.resolve(path.join(__dirname, '../fixtures/no-semi-newline.js'));
-            const fixFunc = fixer.makeFixer({rules: ['semi', 'newline-after-var']});
+            const fixFunc = filteredFix.makeFixer({rules: ['semi', 'newline-after-var']});
             const eslintOptions = {fix: fixFunc};
-            const eslintCli = fixer.getEslintCli(eslintOptions);
-            const report = fixer.calculateFixes([filepath], eslintCli);
+            const eslintCli = filteredFix.getEslintCli(eslintOptions);
+            const report = filteredFix.calculateFixes([filepath], eslintCli);
             expect(report.errorCount).toBe(1);
             expect(report.results[0].output).toBe('var foo = 42;\n\nif (foo == 42) {\n    foo++;\n}\n');
         });

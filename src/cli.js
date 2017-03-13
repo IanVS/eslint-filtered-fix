@@ -1,5 +1,5 @@
 const options = require('./options');
-const fixer = require('./fixer');
+const filteredFix = require('./filtered-fix');
 
 const cli = {
     execute(args) {
@@ -30,14 +30,14 @@ const cli = {
         }
 
         else {
-            const fixFunc = fixer.makeFixer({rules});
+            const fixFunc = filteredFix.makeFixer({rules});
             const eslintOptions = {
                 extensions,
                 fix: fixFunc,
             }
-            const eslintCli = fixer.getEslintCli(eslintOptions);
-            const report = fixer.calculateFixes(files, eslintCli);
-            fixer.applyFixes(report);
+            const eslintCli = filteredFix.getEslintCli(eslintOptions);
+            const report = filteredFix.calculateFixes(files, eslintCli);
+            filteredFix.applyFixes(report);
         }
     }
 }

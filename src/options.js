@@ -16,7 +16,7 @@ const optionator = require('optionator');
 
 
 module.exports = optionator({
-  prepend: 'usage: eslint-fix [file.js or dir]',
+  prepend: 'usage: eslint-filtered-fix [file.js or dir]',
   options: [{
     heading: 'Options'
   }, {

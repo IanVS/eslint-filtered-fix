@@ -1,3 +1,3 @@
 #!/usr/bin/env node
 
-module.exports = require('./lib/fixer');
+module.exports = require('./src/filtered-fix');
