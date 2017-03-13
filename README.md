@@ -1,3 +1,9 @@
+# Warning
+
+**This doesn't actually work yet**
+
+It requires https://github.com/eslint/eslint/issues/8039 to be implemented first.  So far, this is just a proof-of-concept while I work on that issue.
+
 # eslint-filtered-fix
 
 [![npm][npm-badge]][npm-badge-url]
