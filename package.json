@@ -25,7 +25,7 @@
   "bugs": "https://github.com/ianvs/eslint-filtered-fix/issues/",
   "license": "MIT",
   "peerDependencies": {
-    "eslint": ">=3.16.1"
+    "eslint": ">=4.2.0"
   },
   "dependencies": {
     "optionator": "^0.8.2"
