@@ -7,10 +7,10 @@
     "eslint-filtered-fix": "./bin/eslint-filtered-fix.js"
   },
   "files": [
-      "README.md",
-      "LICENSE.md",
-      "src",
-      "bin"
+    "README.md",
+    "LICENSE.md",
+    "src",
+    "bin"
   ],
   "scripts": {
     "test": "jest"
@@ -31,6 +31,6 @@
     "optionator": "^0.8.2"
   },
   "devDependencies": {
-    "jest": "^19.0.2"
+    "jest": "^20.0.4"
   }
 }
