@@ -7,6 +7,7 @@ const cli = {
     let files = [];
     let extensions = [];
     let rules = [];
+    let warnings;
 
     // Parse options
     try {
@@ -14,6 +15,7 @@ const cli = {
       files = currentOptions._;
       extensions = currentOptions.ext;
       rules = currentOptions.rule;
+      warnings = currentOptions.warnings;
     } catch (error) {
       console.error(error.message);
       return 1;
@@ -27,7 +29,7 @@ const cli = {
       // Show help
       console.log(options.generateHelp());
     } else {
-      const fixOptions = {rules};
+      const fixOptions = {rules, warnings};
       const eslintOptions = {extensions};
       filteredFix.fix(files, fixOptions, eslintOptions);
     }

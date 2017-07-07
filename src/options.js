@@ -39,5 +39,11 @@ module.exports = optionator({
     alias      : 'r',
     type       : '[String]',
     description: 'Specify one or more rules to fix',
+  }, {
+    option     : 'warnings',
+    alias      : 'w',
+    type       : 'Boolean',
+    default    : 'true',
+    description: 'Determines whether linting warnings are fixed. Use `--no-warnings` to disable',
   }],
 });

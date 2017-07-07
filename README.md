@@ -56,6 +56,11 @@ You can specify multiple rules by adding more than one `--rule`, or using an arr
 If you do not want lint warnings to be autofixed, use the `--no-warnings` flag.
 With that flag, only errors will be fixed.
 
+### --no-warnings
+
+If you do not want lint warnings to be autofixed, use the `--no-warnings` flag.
+With that flag, only errors will be fixed.
+
 ### --ext
 
 If your javascript files have an extension other than `.js`, you can use the `--ext` flag to
