@@ -2,44 +2,39 @@ const options = require('./options');
 const filteredFix = require('./filtered-fix');
 
 const cli = {
-    execute(args) {
-        // Parse options
-        try {
-            currentOptions = options.parse(args);
-            files = currentOptions._;
-            extensions = currentOptions.ext;
-            rules = currentOptions.rule;
-        } catch (error) {
-            console.error(error.message);
-            return 1;
-        }
+  execute(args) {
+    let currentOptions = {};
+    let files = [];
+    let extensions = [];
+    let rules = [];
 
-        // Decide what to do based on options
-        if (currentOptions.version) {
-            // Show version from package.json
-            console.log('v' + version);
-        }
-
-        else if (currentOptions.help || (!files.length)) {
-            // Show help
-            console.log(options.generateHelp());
-        }
-
-        else if (!rules || !rules.length){
-            console.log('You must specify at least one rule to use.')
-        }
-
-        else {
-            const fixFunc = filteredFix.makeFixer({rules});
-            const eslintOptions = {
-                extensions,
-                fix: fixFunc,
-            }
-            const eslintCli = filteredFix.getEslintCli(eslintOptions);
-            const report = filteredFix.calculateFixes(files, eslintCli);
-            filteredFix.applyFixes(report);
-        }
+    // Parse options
+    try {
+      currentOptions = options.parse(args);
+      files = currentOptions._;
+      extensions = currentOptions.ext;
+      rules = currentOptions.rule;
+    } catch (error) {
+      console.error(error.message);
+      return 1;
     }
-}
+
+    // Decide what to do based on options
+    if (currentOptions.version) {
+      // Show version from package.json
+      console.log('v' + currentOptions.version);
+    } else if (currentOptions.help || (!files.length)) {
+      // Show help
+      console.log(options.generateHelp());
+    } else if (!rules || !rules.length) {
+      console.log('You must specify at least one rule to use.');
+    } else {
+      const fixOptions = {rules};
+      const eslintOptions = {extensions};
+      filteredFix.fix(files, fixOptions, eslintOptions);
+    }
+    return 0;
+  },
+};
 
 module.exports = cli;

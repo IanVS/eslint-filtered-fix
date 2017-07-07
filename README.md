@@ -10,7 +10,7 @@ It requires https://github.com/eslint/eslint/issues/8039 to be implemented first
 [![Build Status][travis-badge]][travis-badge-url]
 
 This tool allows additional control over the fixes that ESLint makes to your code.
-It uses the ESLint that you've installed in your project, and allows you to specify exactly which rules to fix.
+It uses the ESLint that you've installed in your project (`>=4.2.0`), and allows you to specify exactly which rules to fix.
 
 ESLint can save a lot of drudgery by automatically fixing your code to meet the
 guidelines that you've told it to enforce.
@@ -31,7 +31,7 @@ or
 yarn add --dev eslint-filtered-fix
 ```
 
-Also ensure that you have a version of ESLint which is `3.17.0` or newer.
+Also ensure that you have a version of ESLint which is `4.2.0` or newer.
 
 ## Usage
 

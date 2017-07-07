@@ -7,13 +7,14 @@
     "eslint-filtered-fix": "./bin/eslint-filtered-fix.js"
   },
   "files": [
-      "README.md",
-      "LICENSE.md",
-      "src",
-      "bin"
+    "README.md",
+    "LICENSE.md",
+    "src",
+    "bin"
   ],
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint src index.js --cache"
   },
   "keywords": [
     "eslint",
@@ -25,12 +26,19 @@
   "bugs": "https://github.com/ianvs/eslint-filtered-fix/issues/",
   "license": "MIT",
   "peerDependencies": {
-    "eslint": ">=3.16.1"
+    "eslint": ">=4.2.0"
   },
   "dependencies": {
     "optionator": "^0.8.2"
   },
   "devDependencies": {
-    "jest": "^19.0.2"
+    "eslint": "^4.1.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "jest": "^20.0.4",
+    "shelljs": "^0.7.8"
   }
 }
