@@ -1,17 +1,34 @@
 const CLIEngine = require('eslint').CLIEngine;
 
+/**
+ * Creates a fixing function or boolean that can be provided as eslint's `fix`
+ * option.
+ *
+ * @param  {Object|boolean} options Either an options object, or a boolean
+ * @return {Function|boolean}       `fix` option for eslint
+ */
 function makeFixer(options) {
-  if (!options || !Array.isArray(options.rules) || !options.rules.length) {
+  if (!options) {
     return false;
   }
+
+  if (typeof options === 'boolean') {
+    return options;
+  }
+
   const rulesToFix = options.rules;
 
-  return function (eslintMessage) {
-    if (rulesToFix.includes(eslintMessage.ruleId)) {
-      return true;
-    }
-    return false;
-  };
+  if (rulesToFix) {
+    return function (eslintMessage) {
+      if (rulesToFix.includes(eslintMessage.ruleId)) {
+        return true;
+      }
+      return false;
+    };
+  }
+
+  // Fallback
+  return false;
 }
 
 function getEslintCli(options) {
