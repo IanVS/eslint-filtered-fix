@@ -1,6 +1,9 @@
 /* eslint-env jest */
 
 const path = require('path');
+const os = require('os');
+const fs = require('fs');
+const shell = require('shelljs');
 const filteredFix = require('./filtered-fix');
 
 describe('filtered-fix', () => {
@@ -38,36 +41,85 @@ describe('filtered-fix', () => {
     });
   });
 
-  describe('calculateFixes()', () => {
-    it('does not calculate fixes to rules not specified', () => {
-      const filepath = path.resolve(path.join(__dirname, '../fixtures/no-semi.js'));
-      const fixFunc = filteredFix.makeFixer({rules: ['eqeqeq']});
-      const eslintOptions = {fix: fixFunc};
-      const eslintCli = filteredFix.getEslintCli(eslintOptions);
-      const report = filteredFix.calculateFixes([filepath], eslintCli);
+  describe('fix()', () => {
+    let fixtureDir;
+
+    beforeEach(() => {
+      fixtureDir = path.join(os.tmpdir(), '/eslint-filtered-fix/fixtures');
+      shell.mkdir('-p', fixtureDir);
+      shell.cp('-r', path.join(__dirname, '../fixtures/*'), fixtureDir);
+      shell.cp('-r', path.join(__dirname, '../fixtures/.*'), fixtureDir);
+      fixtureDir = fs.realpathSync(fixtureDir);
+    });
+
+    afterEach(() => {
+      shell.rm('-r', fixtureDir);
+    });
+
+    it('returns a report of linting errors', () => {
+      const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
+      const fixOptions = false;
+      const report = filteredFix.fix([filepath], fixOptions, {});
+      expect(report.errorCount).toBe(1);
+    });
+
+    it('accepts a single file', () => {
+      const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
+      const fixOptions = false;
+      const report = filteredFix.fix(filepath, fixOptions, {});
+      expect(report.errorCount).toBe(1);
+    });
+
+    it('does not apply any fixes if fix options are not supplied', () => {
+      const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
+      const report = filteredFix.fix(filepath);
+      expect(report.errorCount).toBe(1);
+    });
+
+    it('applies fixes to files', () => {
+      const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
+      const fixOptions = true;
+      const report = filteredFix.fix(filepath, fixOptions, {});
+      expect(report.errorCount).toBe(0);
+    });
+
+    it('returns a report of unfixed linting errors', () => {
+      const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
+      const fixOptions = true;
+      const report = filteredFix.fix(filepath, fixOptions, {});
+      expect(report.errorCount).toBe(0);
+    });
+
+    it('does not require an explicit argument for eslint options', () => {
+      const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
+      const fixOptions = false;
+      const report = filteredFix.fix(filepath, fixOptions);
+      expect(report.errorCount).toBe(1);
+    });
+
+    it('does not perform fixes to rules not specified', () => {
+      const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
+      const fixOptions = {rules: ['eqeqeq']};
+      const report = filteredFix.fix(filepath, fixOptions);
       expect(report.errorCount).toBe(1);
       expect(report.results[0].filePath).toBe(filepath);
-      expect(report.results[0].output).toBeUndefined();
+      expect(shell.cat(filepath).stdout).toBe('var foo = 42\n');
     });
 
-    it('calculates fixes if rule is specified', () => {
-      const filepath = path.resolve(path.join(__dirname, '../fixtures/no-semi.js'));
-      const fixFunc = filteredFix.makeFixer({rules: ['semi']});
-      const eslintOptions = {fix: fixFunc};
-      const eslintCli = filteredFix.getEslintCli(eslintOptions);
-      const report = filteredFix.calculateFixes([filepath], eslintCli);
+    it('performs fixes if rule is specified', () => {
+      const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
+      const fixOptions = {rules: ['semi']};
+      const report = filteredFix.fix(filepath, fixOptions);
       expect(report.errorCount).toBe(0);
-      expect(report.results[0].output).toBe('var foo = 42;\n');
+      expect(shell.cat(filepath).stdout).toBe('var foo = 42;\n');
     });
 
-    it('calculates fixes for multiple rules', () => {
-      const filepath = path.resolve(path.join(__dirname, '../fixtures/no-semi-newline.js'));
-      const fixFunc = filteredFix.makeFixer({rules: ['semi', 'newline-after-var']});
-      const eslintOptions = {fix: fixFunc};
-      const eslintCli = filteredFix.getEslintCli(eslintOptions);
-      const report = filteredFix.calculateFixes([filepath], eslintCli);
+    it('performs fixes for multiple rules', () => {
+      const filepath = path.resolve(path.join(fixtureDir, './no-semi-newline.js'));
+      const fixOptions = {rules: ['semi', 'newline-after-var']};
+      const report = filteredFix.fix(filepath, fixOptions);
       expect(report.errorCount).toBe(1);
-      expect(report.results[0].output).toBe('var foo = 42;\n\nif (foo == 42) {\n    foo++;\n}\n');
+      expect(shell.cat(filepath).stdout).toBe('var foo = 42;\n\nif (foo == 42) {\n    foo++;\n}\n');
     });
   });
 });

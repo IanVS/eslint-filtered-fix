@@ -29,14 +29,9 @@ const cli = {
     } else if (!rules || !rules.length) {
       console.log('You must specify at least one rule to use.');
     } else {
-      const fixFunc = filteredFix.makeFixer({rules});
-      const eslintOptions = {
-        extensions,
-        fix: fixFunc,
-      };
-      const eslintCli = filteredFix.getEslintCli(eslintOptions);
-      const report = filteredFix.calculateFixes(files, eslintCli);
-      filteredFix.applyFixes(report);
+      const fixOptions = {rules};
+      const eslintOptions = {extensions};
+      filteredFix.fix(files, fixOptions, eslintOptions);
     }
     return 0;
   },

@@ -43,11 +43,22 @@ function applyFixes(report) {
   CLIEngine.outputFixes(report);
 }
 
+function fix(files, fixOptions, eslintOptions) {
+  // Ensure files are an array
+  let fileList = [].concat(files);
+
+  const fixFunc = makeFixer(fixOptions);
+  const cliOptions = Object.assign({}, eslintOptions, {fix: fixFunc});
+  const eslintCli = getEslintCli(cliOptions);
+  const report = calculateFixes(fileList, eslintCli);
+  applyFixes(report);
+
+  // Re-run eslint to get new report
+  return calculateFixes(fileList, eslintCli);
+}
 
 
 module.exports = {
+  fix,
   makeFixer,
-  getEslintCli,
-  calculateFixes,
-  applyFixes,
 };
