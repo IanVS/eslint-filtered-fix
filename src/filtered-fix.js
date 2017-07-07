@@ -8,8 +8,8 @@ const CLIEngine = require('eslint').CLIEngine;
  * @return {Function|boolean}       `fix` option for eslint
  */
 function makeFixer(options) {
-  if (!options) {
-    return false;
+  if (typeof options === 'undefined') {
+    return true;
   }
 
   if (typeof options === 'boolean') {
@@ -17,18 +17,28 @@ function makeFixer(options) {
   }
 
   const rulesToFix = options.rules;
+  const fixWarnings = options.warnings;
 
-  if (rulesToFix) {
-    return function (eslintMessage) {
-      if (rulesToFix.includes(eslintMessage.ruleId)) {
-        return true;
-      }
-      return false;
-    };
+  function ruleFixer(eslintMessage) {
+    if (!rulesToFix) return true;
+
+    if (rulesToFix.includes(eslintMessage.ruleId)) {
+      return true;
+    }
+    return false;
   }
 
-  // Fallback
-  return false;
+  function warningFixer(eslintMessage) {
+    if (fixWarnings === false) {
+      return eslintMessage.severity === 2;
+    }
+
+    return true;
+  }
+
+  return function (eslintMessage) {
+    return ruleFixer(eslintMessage) && warningFixer(eslintMessage);
+  };
 }
 
 function getEslintCli(options) {

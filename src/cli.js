@@ -7,6 +7,7 @@ const cli = {
     let files = [];
     let extensions = [];
     let rules = [];
+    let warnings;
 
     // Parse options
     try {
@@ -14,6 +15,7 @@ const cli = {
       files = currentOptions._;
       extensions = currentOptions.ext;
       rules = currentOptions.rule;
+      warnings = currentOptions.warnings;
     } catch (error) {
       console.error(error.message);
       return 1;
@@ -26,10 +28,8 @@ const cli = {
     } else if (currentOptions.help || (!files.length)) {
       // Show help
       console.log(options.generateHelp());
-    } else if (!rules || !rules.length) {
-      console.log('You must specify at least one rule to use.');
     } else {
-      const fixOptions = {rules};
+      const fixOptions = {rules, warnings};
       const eslintOptions = {extensions};
       filteredFix.fix(files, fixOptions, eslintOptions);
     }
