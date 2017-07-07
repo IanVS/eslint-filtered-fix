@@ -1,9 +1,3 @@
-# Warning
-
-**This doesn't actually work yet**
-
-It requires https://github.com/eslint/eslint/issues/8039 to be implemented first.  So far, this is just a proof-of-concept while I work on that issue.
-
 # eslint-filtered-fix
 
 [![npm][npm-badge]][npm-badge-url]
@@ -11,6 +5,10 @@ It requires https://github.com/eslint/eslint/issues/8039 to be implemented first
 
 This tool allows additional control over the fixes that ESLint makes to your code.
 It uses the ESLint that you've installed in your project (`>=4.2.0`), and allows you to specify exactly which rules to fix.
+
+# Warning
+
+**This requires you to have ESLint 4.2.0 or higher installed in your project**
 
 ESLint can save a lot of drudgery by automatically fixing your code to meet the
 guidelines that you've told it to enforce.
