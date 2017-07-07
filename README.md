@@ -6,10 +6,6 @@
 This tool allows additional control over the fixes that ESLint makes to your code.
 It uses the ESLint that you've installed in your project (`>=4.2.0`), and allows you to specify exactly which rules to fix.
 
-# Warning
-
-**This requires you to have ESLint 4.2.0 or higher installed in your project**
-
 ESLint can save a lot of drudgery by automatically fixing your code to meet the
 guidelines that you've told it to enforce.
 But, by using the built-in `eslint --fix` command, your code can undergo drastic changes,
