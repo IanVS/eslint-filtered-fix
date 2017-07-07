@@ -1,7 +1,3 @@
-/**
- * @fileoverview Options configuration for optionator.
- * @author Ian VanSchooten
- */
 'use strict';
 
 //------------------------------------------------------------------------------

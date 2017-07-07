@@ -1,3 +1,5 @@
+'use strict';
+
 const CLIEngine = require('eslint').CLIEngine;
 
 /**
@@ -22,7 +24,7 @@ function makeFixer(options) {
   function ruleFixer(eslintMessage) {
     if (!rulesToFix) return true;
 
-    if (rulesToFix.includes(eslintMessage.ruleId)) {
+    if (rulesToFix.indexOf(eslintMessage.ruleId) !== -1) {
       return true;
     }
     return false;

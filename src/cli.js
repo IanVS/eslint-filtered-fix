@@ -1,3 +1,5 @@
+'use strict';
+
 const options = require('./options');
 const filteredFix = require('./filtered-fix');
 
