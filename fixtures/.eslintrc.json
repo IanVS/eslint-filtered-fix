@@ -3,6 +3,7 @@
   "rules": {
     "eqeqeq": "error",
     "semi": ["error", "always"],
-    "newline-after-var": "error"
+    "newline-after-var": "error",
+    "no-extra-parens": "warn"
   }
 }

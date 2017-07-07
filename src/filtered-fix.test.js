@@ -129,5 +129,13 @@ describe('filtered-fix', () => {
       expect(report.errorCount).toBe(1);
       expect(shell.cat(filepath).stdout).toBe('var foo = 42;\n\nif (foo == 42) {\n    foo++;\n}\n');
     });
+
+    it('does not fix warnings if warnings option is false', () => {
+      const filepath = path.resolve(path.join(fixtureDir, './extra-parens.js'));
+      const fixOptions = {warnings: false};
+      const report = filteredFix.fix(filepath, fixOptions);
+      expect(report.warningCount).toBe(1);
+      expect(shell.cat(filepath).stdout).toBe('var a = (b * c);\n');
+    });
   });
 });
