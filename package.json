@@ -32,7 +32,7 @@
     "optionator": "^0.8.2"
   },
   "devDependencies": {
-    "eslint": "^4.1.1",
+    "eslint": "https://github.com/eslint/eslint#88ed0417761a963cb6abd762f2a53ce532308b72",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.1.0",
