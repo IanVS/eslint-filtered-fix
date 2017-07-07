@@ -38,14 +38,23 @@ Also ensure that you have a version of ESLint which is `4.2.0` or newer.
 Add as an npm script, or run it directly with yarn:
 
 ```shell
-yarn eslint-filtered-fix <filename or dir> --rule <rule-name>
+yarn eslint-filtered-fix <filename or dir>
 ```
 
-You must specify both a target (filename or directory), _and_ at least one rule to fix.
+If you do not add any other options, all fixes will be applied, as if you had run `eslint --fix` on the files you specified.
+
+## Options
+
+### --rule <rule-name>
+
+Only apply fixes for the rule(s) specified.
 You can specify multiple rules by adding more than one `--rule`, or using an array
 `--rule [semi,newline-after-var]`. (Notice that spaces in the array are not allowed.)
 
-## Options
+### --no-warnings
+
+If you do not want lint warnings to be autofixed, use the `--no-warnings` flag.
+With that flag, only errors will be fixed.
 
 ### --ext
 

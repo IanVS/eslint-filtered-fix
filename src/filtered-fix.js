@@ -8,8 +8,8 @@ const CLIEngine = require('eslint').CLIEngine;
  * @return {Function|boolean}       `fix` option for eslint
  */
 function makeFixer(options) {
-  if (!options) {
-    return false;
+  if (typeof options === 'undefined') {
+    return true;
   }
 
   if (typeof options === 'boolean') {
@@ -28,7 +28,7 @@ function makeFixer(options) {
   }
 
   // Fallback
-  return false;
+  return true;
 }
 
 function getEslintCli(options) {

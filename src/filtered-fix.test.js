@@ -13,9 +13,9 @@ describe('filtered-fix', () => {
       expect(typeof fixFunc).toBe('function');
     });
 
-    it('returns false if rules array is not provided', () => {
+    it('returns true if rules array is not provided', () => {
       const fixFunc = filteredFix.makeFixer();
-      expect(fixFunc).toBe(false);
+      expect(fixFunc).toBe(true);
     });
 
     describe('the function returned', () => {
@@ -70,10 +70,18 @@ describe('filtered-fix', () => {
       expect(report.errorCount).toBe(1);
     });
 
-    it('does not apply any fixes if fix options are not supplied', () => {
+    it('fixes all rules if no options are specified', () => {
       const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
       const report = filteredFix.fix(filepath);
-      expect(report.errorCount).toBe(1);
+      expect(report.errorCount).toBe(0);
+      expect(shell.cat(filepath).stdout).toBe('var foo = 42;\n');
+    });
+
+    it('fixes all rules if an empty options object specified', () => {
+      const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
+      const report = filteredFix.fix(filepath, {});
+      expect(report.errorCount).toBe(0);
+      expect(shell.cat(filepath).stdout).toBe('var foo = 42;\n');
     });
 
     it('applies fixes to files', () => {

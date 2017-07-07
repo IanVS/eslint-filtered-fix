@@ -26,8 +26,6 @@ const cli = {
     } else if (currentOptions.help || (!files.length)) {
       // Show help
       console.log(options.generateHelp());
-    } else if (!rules || !rules.length) {
-      console.log('You must specify at least one rule to use.');
     } else {
       const fixOptions = {rules};
       const eslintOptions = {extensions};
