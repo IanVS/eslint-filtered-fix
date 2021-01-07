@@ -29,16 +29,16 @@
     "eslint": ">=4.2.0"
   },
   "dependencies": {
-    "optionator": "^0.8.2"
+    "optionator": "^0.9.1"
   },
   "devDependencies": {
-    "eslint": "https://github.com/eslint/eslint#88ed0417761a963cb6abd762f2a53ce532308b72",
+    "eslint": "^7.0.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.1.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "jest": "^20.0.4",
-    "shelljs": "^0.7.8"
+    "jest": "^26.6.3",
+    "shelljs": "^0.8.4"
   }
 }
