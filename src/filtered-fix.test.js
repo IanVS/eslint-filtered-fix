@@ -75,14 +75,14 @@ describe('filtered-fix', () => {
       const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
       const report = filteredFix.fix(filepath);
       expect(report.errorCount).toBe(0);
-      expect(shell.cat(filepath).stdout).toBe('var foo = 42;\n');
+      expect(shell.cat(filepath).toString()).toBe(`var foo = 42;${os.EOL}`);
     });
 
     it('fixes all rules if an empty options object specified', () => {
       const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
       const report = filteredFix.fix(filepath, {});
       expect(report.errorCount).toBe(0);
-      expect(shell.cat(filepath).stdout).toBe('var foo = 42;\n');
+      expect(shell.cat(filepath).toString()).toBe(`var foo = 42;${os.EOL}`);
     });
 
     it('applies fixes to files', () => {
@@ -112,7 +112,7 @@ describe('filtered-fix', () => {
       const report = filteredFix.fix(filepath, fixOptions);
       expect(report.errorCount).toBe(1);
       expect(report.results[0].filePath).toBe(filepath);
-      expect(shell.cat(filepath).stdout).toBe('var foo = 42\n');
+      expect(shell.cat(filepath).toString()).toBe(`var foo = 42${os.EOL}`);
     });
 
     it('performs fixes if rule is specified', () => {
@@ -120,7 +120,7 @@ describe('filtered-fix', () => {
       const fixOptions = {rules: ['semi']};
       const report = filteredFix.fix(filepath, fixOptions);
       expect(report.errorCount).toBe(0);
-      expect(shell.cat(filepath).stdout).toBe('var foo = 42;\n');
+      expect(shell.cat(filepath).toString()).toBe(`var foo = 42;${os.EOL}`);
     });
 
     it('performs fixes for multiple rules', () => {
@@ -128,7 +128,7 @@ describe('filtered-fix', () => {
       const fixOptions = {rules: ['semi', 'newline-after-var']};
       const report = filteredFix.fix(filepath, fixOptions);
       expect(report.errorCount).toBe(1);
-      expect(shell.cat(filepath).stdout).toBe('var foo = 42;\n\nif (foo == 42) {\n    foo++;\n}\n');
+      expect(shell.cat(filepath).toString()).toBe(`var foo = 42;${os.EOL}\nif (foo == 42) {${os.EOL}    foo++;${os.EOL}}${os.EOL}`);
     });
 
     it('does not fix warnings if warnings option is false', () => {
@@ -136,7 +136,7 @@ describe('filtered-fix', () => {
       const fixOptions = {warnings: false};
       const report = filteredFix.fix(filepath, fixOptions);
       expect(report.warningCount).toBe(1);
-      expect(shell.cat(filepath).stdout).toBe('var a = (b * c);\n');
+      expect(shell.cat(filepath).toString()).toBe(`var a = (b * c);${os.EOL}`);
     });
   });
 });
