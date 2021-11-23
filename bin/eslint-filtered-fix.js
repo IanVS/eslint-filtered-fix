@@ -2,11 +2,13 @@
 
 var cli = require('../src/cli');
 
-var exitCode = cli.execute(process.argv);
+(async function () {
+  var exitCode = await cli.execute(process.argv);
 
-/*
- * Wait for the stdout buffer to drain.
- */
-process.on('exit', function () {
-  process.exit(exitCode);
-});
+  /*
+  * Wait for the stdout buffer to drain.
+  */
+  process.on('exit', function () {
+    process.exit(exitCode);
+  });
+})();

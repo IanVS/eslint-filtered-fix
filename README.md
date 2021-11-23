@@ -3,7 +3,7 @@
 [![npm][npm-badge]][npm-badge-url]
 
 This tool allows additional control over the fixes that ESLint makes to your code.
-It uses the ESLint that you've installed in your project (`>=4.2.0`), and allows you to specify exactly which rules to fix.
+It uses the ESLint that you've installed in your project (`>=7.0.0`), and allows you to specify exactly which rules to fix.
 
 ESLint can save a lot of drudgery by automatically fixing your code to meet the
 guidelines that you've told it to enforce.
@@ -24,7 +24,7 @@ or
 yarn add --dev eslint-filtered-fix
 ```
 
-Also ensure that you have a version of ESLint which is `4.2.0` or newer.
+Also ensure that you have a version of ESLint which is `7.0.0` or newer. If you need to use an older version of eslint, please use version `0.1.X` of eslint-filtered-fix.
 
 ## Usage
 
@@ -68,10 +68,22 @@ For example, to examine all .jsx files in "test/" directories within "lib/":
 eslint-filtered-fix lib/**/test/**/*.jsx --rule semi
 ```
 
+## JS API
+
+The `fix` function can also be required and called from a node.js function. It is an async function, so be sure to `await` the result.
+
+```js
+const { fix } = require("eslint-filtered-fix");
+
+const results = await fix(files, fixOptions, configuration);
+```
+
 ## Notes
 
 This module does not make any decisions about which ESLint rules to run.
 Make sure your project has a valid ESLint config file.
+
+For a more interactive experience, check out [eslint-nibble](https://github.com/IanVS/eslint-nibble).
 
 [npm-badge]: https://img.shields.io/npm/v/eslint-filtered-fix.svg
 [npm-badge-url]: https://www.npmjs.com/package/eslint-filtered-fix
