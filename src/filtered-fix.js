@@ -57,7 +57,7 @@ function applyFixes(report) {
 
 function fix(files, fixOptions, eslintOptions) {
   // Ensure files are an array
-  let fileList = [].concat(files);
+  const fileList = [].concat(files);
 
   const fixFunc = makeFixer(fixOptions);
   const cliOptions = Object.assign({}, eslintOptions, {fix: fixFunc});

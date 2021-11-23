@@ -10,7 +10,7 @@ const filteredFix = require('./filtered-fix');
 describe('filtered-fix', () => {
   describe('makeFixer()', () => {
     it('returns a function', () => {
-      const fixFunc = filteredFix.makeFixer({rules: ['semi']});
+      const fixFunc = filteredFix.makeFixer({ rules: ['semi'] });
       expect(typeof fixFunc).toBe('function');
     });
 
@@ -31,12 +31,12 @@ describe('filtered-fix', () => {
       };
 
       it('returns true if called with a message having a ruleId in the provided rules array', () => {
-        const fixFunc = filteredFix.makeFixer({rules: ['eqeqeq']});
+        const fixFunc = filteredFix.makeFixer({ rules: ['eqeqeq'] });
         expect(fixFunc(eslintMessage)).toBe(true);
       });
 
       it('returns false if called with a message having a ruleId not in the provided rules array', () => {
-        const fixFunc = filteredFix.makeFixer({rules: ['semi']});
+        const fixFunc = filteredFix.makeFixer({ rules: ['semi'] });
         expect(fixFunc(eslintMessage)).toBe(false);
       });
     });
@@ -108,7 +108,7 @@ describe('filtered-fix', () => {
 
     it('does not perform fixes to rules not specified', () => {
       const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
-      const fixOptions = {rules: ['eqeqeq']};
+      const fixOptions = { rules: ['eqeqeq'] };
       const report = filteredFix.fix(filepath, fixOptions);
       expect(report.errorCount).toBe(1);
       expect(report.results[0].filePath).toBe(filepath);
@@ -117,7 +117,7 @@ describe('filtered-fix', () => {
 
     it('performs fixes if rule is specified', () => {
       const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
-      const fixOptions = {rules: ['semi']};
+      const fixOptions = { rules: ['semi'] };
       const report = filteredFix.fix(filepath, fixOptions);
       expect(report.errorCount).toBe(0);
       expect(shell.cat(filepath).toString()).toBe(`var foo = 42;${os.EOL}`);
@@ -125,7 +125,7 @@ describe('filtered-fix', () => {
 
     it('performs fixes for multiple rules', () => {
       const filepath = path.resolve(path.join(fixtureDir, './no-semi-newline.js'));
-      const fixOptions = {rules: ['semi', 'newline-after-var']};
+      const fixOptions = { rules: ['semi', 'newline-after-var'] };
       const report = filteredFix.fix(filepath, fixOptions);
       expect(report.errorCount).toBe(1);
       expect(shell.cat(filepath).toString()).toBe(`var foo = 42;${os.EOL}\nif (foo == 42) {${os.EOL}    foo++;${os.EOL}}${os.EOL}`);
@@ -133,7 +133,7 @@ describe('filtered-fix', () => {
 
     it('does not fix warnings if warnings option is false', () => {
       const filepath = path.resolve(path.join(fixtureDir, './extra-parens.js'));
-      const fixOptions = {warnings: false};
+      const fixOptions = { warnings: false };
       const report = filteredFix.fix(filepath, fixOptions);
       expect(report.warningCount).toBe(1);
       expect(shell.cat(filepath).toString()).toBe(`var a = (b * c);${os.EOL}`);
