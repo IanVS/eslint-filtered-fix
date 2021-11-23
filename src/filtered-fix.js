@@ -1,6 +1,6 @@
 'use strict';
 
-const CLIEngine = require('eslint').CLIEngine;
+const { ESLint } = require('eslint');
 
 /**
  * Creates a fixing function or boolean that can be provided as eslint's `fix`
@@ -44,26 +44,26 @@ function makeFixer(options) {
 }
 
 function getEslintCli(options) {
-  return new CLIEngine(options);
+  return new ESLint(options);
 }
 
-function calculateFixes(files, eslintCli) {
-  return eslintCli.executeOnFiles(files);
+async function calculateFixes(files, eslintCli) {
+  return eslintCli.lintFiles(files);
 }
 
-function applyFixes(report) {
-  CLIEngine.outputFixes(report);
+async function applyFixes(report) {
+  await ESLint.outputFixes(report);
 }
 
-function fix(files, fixOptions, eslintOptions) {
+async function fix(files, fixOptions, eslintOptions) {
   // Ensure files are an array
   const fileList = [].concat(files);
 
   const fixFunc = makeFixer(fixOptions);
-  const cliOptions = Object.assign({}, eslintOptions, {fix: fixFunc});
+  const cliOptions = Object.assign({}, eslintOptions, { fix: fixFunc });
   const eslintCli = getEslintCli(cliOptions);
-  const report = calculateFixes(fileList, eslintCli);
-  applyFixes(report);
+  const report = await calculateFixes(fileList, eslintCli);
+  await applyFixes(report);
 
   // Re-run eslint to get new report
   return calculateFixes(fileList, eslintCli);

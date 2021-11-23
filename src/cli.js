@@ -4,7 +4,7 @@ const options = require('./options');
 const filteredFix = require('./filtered-fix');
 
 const cli = {
-  execute(args) {
+  async execute(args) {
     let currentOptions = {};
     let files = [];
     let extensions = [];
@@ -31,9 +31,9 @@ const cli = {
       // Show help
       console.log(options.generateHelp());
     } else {
-      const fixOptions = {rules, warnings};
-      const eslintOptions = {extensions};
-      filteredFix.fix(files, fixOptions, eslintOptions);
+      const fixOptions = { rules, warnings };
+      const eslintOptions = { extensions };
+      await filteredFix.fix(files, fixOptions, eslintOptions);
     }
     return 0;
   },
