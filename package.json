@@ -1,6 +1,6 @@
 {
   "name": "eslint-filtered-fix",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Gain more control over how ESLint fixes are applied.",
   "main": "index.js",
   "bin": {
@@ -26,7 +26,7 @@
   "bugs": "https://github.com/ianvs/eslint-filtered-fix/issues/",
   "license": "MIT",
   "peerDependencies": {
-    "eslint": ">=4.2.0"
+    "eslint": ">=7.0.0"
   },
   "dependencies": {
     "optionator": "^0.9.1"
