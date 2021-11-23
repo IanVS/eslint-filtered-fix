@@ -1,7 +1,6 @@
 # eslint-filtered-fix
 
 [![npm][npm-badge]][npm-badge-url]
-[![Build Status][travis-badge]][travis-badge-url]
 
 This tool allows additional control over the fixes that ESLint makes to your code.
 It uses the ESLint that you've installed in your project (`>=4.2.0`), and allows you to specify exactly which rules to fix.
@@ -11,7 +10,7 @@ guidelines that you've told it to enforce.
 But, by using the built-in `eslint --fix` command, your code can undergo drastic changes,
 especially if you have recently introduced ESLint or added more rules that are failing.
 Sometimes, it's better to fix a single rule or a small set of rules at a time,
-resulting in smaller, more focused commits.  That is exactly what you can do with eslint-filtered-fix.
+resulting in smaller, more focused commits. That is exactly what you can do with eslint-filtered-fix.
 
 ## Installation
 
@@ -69,7 +68,6 @@ For example, to examine all .jsx files in "test/" directories within "lib/":
 eslint-filtered-fix lib/**/test/**/*.jsx --rule semi
 ```
 
-
 ## Notes
 
 This module does not make any decisions about which ESLint rules to run.
@@ -77,5 +75,3 @@ Make sure your project has a valid ESLint config file.
 
 [npm-badge]: https://img.shields.io/npm/v/eslint-filtered-fix.svg
 [npm-badge-url]: https://www.npmjs.com/package/eslint-filtered-fix
-[travis-badge]: https://travis-ci.org/IanVS/eslint-filtered-fix.svg?branch=master
-[travis-badge-url]: https://travis-ci.org/IanVS/eslint-filtered-fix
