@@ -1,6 +1,6 @@
 {
   "name": "eslint-filtered-fix",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Gain more control over how ESLint fixes are applied.",
   "main": "index.js",
   "bin": {
