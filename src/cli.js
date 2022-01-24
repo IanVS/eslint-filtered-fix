@@ -16,7 +16,7 @@ const cli = {
       currentOptions = options.parse(args);
       files = currentOptions._;
       extensions = currentOptions.ext;
-      rules = currentOptions.rule;
+      rules = currentOptions.rule.map(r => r.replace(/\\/g, "/");
       warnings = currentOptions.warnings;
     } catch (error) {
       console.error(error.message);
