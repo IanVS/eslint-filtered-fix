@@ -61,7 +61,8 @@ async function fix(files, fixOptions, eslintOptions) {
 
   const fixFunc = makeFixer(fixOptions);
   const cliOptions = Object.assign({}, eslintOptions, { fix: fixFunc });
-  if (fixOptions && fixOptions.rules) {
+  const majorVersion = parseInt(ESLint.version.split('.')[0]);
+  if (fixOptions && fixOptions.rules && majorVersion > 8) {
     cliOptions.ruleFilter = (ruleId) => fixOptions.rules.includes(ruleId);
   }
   const eslintCli = getEslintCli(cliOptions);
