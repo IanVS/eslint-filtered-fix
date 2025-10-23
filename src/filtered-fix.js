@@ -61,6 +61,9 @@ async function fix(files, fixOptions, eslintOptions) {
 
   const fixFunc = makeFixer(fixOptions);
   const cliOptions = Object.assign({}, eslintOptions, { fix: fixFunc });
+  if (fixOptions && fixOptions.rules) {
+    cliOptions.ruleFilter = (ruleId) => fixOptions.rules.includes(ruleId);
+  }
   const eslintCli = getEslintCli(cliOptions);
   const report = await calculateFixes(fileList, eslintCli);
   await applyFixes(report);
