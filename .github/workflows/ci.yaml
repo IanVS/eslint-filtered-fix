@@ -21,8 +21,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node_version }}
-          cache: yarn
+          cache: npm
       - name: install
-        run: yarn install --immutable
+        run: npm ci
+      - name: lint
+        run: npm run lint
       - name: test
-        run: yarn test --ci
+        run: npm test
