@@ -8,12 +8,12 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        node_version: [12, 14, 16, 17]
+        node_version: [18, 24]
         include:
           - os: macos-latest
-            node_version: 16
+            node_version: 24
           - os: windows-latest
-            node_version: 16
+            node_version: 24
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
