@@ -1,11 +1,14 @@
-{
-    "parserOptions": {
-      "ecmaVersion": 2018
-    },
-    "env": {
-      "es6": true
-    },
-    "extends": "standard",
+import { defineConfig } from "eslint/config";
+import globals from "globals";
+import js from "@eslint/js";
+
+export default defineConfig([
+	{ files: ["**/*.js"], languageOptions: { globals: globals.node } },
+	{ files: ["**/*.test.js"], languageOptions: { globals: globals.jest } },
+	{
+    files: ["**/*.js"],
+    plugins: { js },
+    extends: ["js/recommended"],
     "rules": {
       "consistent-return"                : [2],
       "no-use-before-define"             : [2],
@@ -22,5 +25,6 @@
       "no-extra-semi"                    : [2],
       "semi-spacing"                     : [2, { "before": false, "after": true }],
       "comma-dangle"                     : [2, "always-multiline"]
-    }
-}
+    },
+  },
+]);
