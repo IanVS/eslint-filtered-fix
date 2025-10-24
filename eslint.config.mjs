@@ -5,8 +5,19 @@ import js from "@eslint/js";
 export default defineConfig([
 	{ files: ["**/*.js"], languageOptions: { globals: globals.node } },
 	{ files: ["**/*.test.js"], languageOptions: { globals: globals.jest } },
+  // Used for tests
+  {
+    files: ["tmp/**/*.js"],
+    "rules": {
+      "eqeqeq": "error",
+      "semi": ["error", "always"],
+      "newline-after-var": "error",
+      "no-extra-parens": "warn"
+    }
+  },
 	{
     files: ["**/*.js"],
+    ignores: ["tmp/**/*"],
     plugins: { js },
     extends: ["js/recommended"],
     "rules": {

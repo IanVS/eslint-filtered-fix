@@ -3,6 +3,7 @@
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
+const crypto = require('crypto');
 const shell = require('shelljs');
 const filteredFix = require('./filtered-fix');
 
@@ -45,10 +46,10 @@ describe('filtered-fix', () => {
     let fixtureDir;
 
     beforeEach(() => {
-      fixtureDir = path.join(os.tmpdir(), '/eslint-filtered-fix/fixtures');
+      const prefix = crypto.randomBytes(8).toString('hex');
+      fixtureDir = path.join(__dirname, '../tmp', prefix);
       shell.mkdir('-p', fixtureDir);
       shell.cp('-r', path.join(__dirname, '../fixtures/*'), fixtureDir);
-      shell.cp('-r', path.join(__dirname, '../fixtures/.*'), fixtureDir);
       fixtureDir = fs.realpathSync(fixtureDir);
     });
 
