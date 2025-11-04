@@ -5,6 +5,7 @@ const os = require('os');
 const fs = require('fs');
 const crypto = require('crypto');
 const shell = require('shelljs');
+const { ESLint } = require('eslint');
 const filteredFix = require('./filtered-fix');
 
 describe('filtered-fix', () => {
@@ -44,6 +45,7 @@ describe('filtered-fix', () => {
 
   describe('fix()', () => {
     let fixtureDir;
+    const eslintCli = new ESLint();
 
     beforeEach(() => {
       const prefix = crypto.randomBytes(8).toString('hex');
@@ -109,7 +111,8 @@ describe('filtered-fix', () => {
     it('does not perform fixes to rules not specified', async () => {
       const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
       const fixOptions = { rules: ['eqeqeq'] };
-      const [report] = await filteredFix.fix(filepath, fixOptions);
+      await filteredFix.fix(filepath, fixOptions);
+      const [report] = await eslintCli.lintFiles([filepath]);
       expect(report.errorCount).toBe(1);
       expect(report.filePath).toBe(filepath);
       expect(shell.cat(filepath).toString()).toBe(`var foo = 42${os.EOL}`);
@@ -126,7 +129,8 @@ describe('filtered-fix', () => {
     it('performs fixes for multiple rules', async () => {
       const filepath = path.resolve(path.join(fixtureDir, './no-semi-newline.js'));
       const fixOptions = { rules: ['semi', 'newline-after-var'] };
-      const [report] = await filteredFix.fix(filepath, fixOptions);
+      await filteredFix.fix(filepath, fixOptions);
+      const [report] = await eslintCli.lintFiles([filepath]);
       expect(report.errorCount).toBe(1);
       expect(shell.cat(filepath).toString()).toBe(`var foo = 42;${os.EOL}\nif (foo == 42) {${os.EOL}    foo++;${os.EOL}}${os.EOL}`);
     });
@@ -143,7 +147,8 @@ describe('filtered-fix', () => {
       const filepath1 = path.resolve(path.join(fixtureDir, './no-semi-newline.js'));
       const filepath2 = path.resolve(path.join(fixtureDir, './no-semi.js'));
       const fixOptions = { rules: ['semi', 'newline-after-var'] };
-      const [report1, report2] = await filteredFix.fix([filepath1, filepath2], fixOptions);
+      await filteredFix.fix([filepath1, filepath2], fixOptions);
+      const [report1, report2] = await eslintCli.lintFiles([filepath1, filepath2]);
       expect(report1.errorCount).toBe(1);
       expect(report2.errorCount).toBe(0);
       expect(shell.cat(filepath1).toString()).toBe(`var foo = 42;${os.EOL}\nif (foo == 42) {${os.EOL}    foo++;${os.EOL}}${os.EOL}`);
