@@ -46,17 +46,26 @@ describe('filtered-fix', () => {
   describe('fix()', () => {
     let fixtureDir;
     const eslintCli = new ESLint();
+    const tmpDir = path.join(__dirname, '../tmp');
+
+    beforeAll(() => {
+      shell.mkdir('-p', tmpDir);
+    });
 
     beforeEach(() => {
       const prefix = crypto.randomBytes(8).toString('hex');
-      fixtureDir = path.join(__dirname, '../tmp', prefix);
-      shell.mkdir('-p', fixtureDir);
-      shell.cp('-r', path.join(__dirname, '../fixtures/*'), fixtureDir);
+      fixtureDir = path.join(tmpDir, prefix);
+      shell.cp('-r', path.join(__dirname, '../fixtures'), tmpDir);
+      shell.mv(path.join(tmpDir, 'fixtures'), fixtureDir);
       fixtureDir = fs.realpathSync(fixtureDir);
     });
 
     afterEach(() => {
       shell.rm('-r', fixtureDir);
+    });
+
+    afterAll(() => {
+      shell.rm('-r', tmpDir);
     });
 
     it('returns a report of linting errors', async () => {
