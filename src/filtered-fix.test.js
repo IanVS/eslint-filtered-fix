@@ -1,7 +1,6 @@
 'use strict';
 
 const path = require('path');
-const os = require('os');
 const fs = require('fs');
 const crypto = require('crypto');
 const shell = require('shelljs');
@@ -86,14 +85,14 @@ describe('filtered-fix', () => {
       const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
       const [report] = await filteredFix.fix(filepath);
       expect(report.errorCount).toBe(0);
-      expect(shell.cat(filepath).toString()).toBe(`var foo = 42;${os.EOL}`);
+      expect(shell.cat(filepath).toString()).toBe(`var foo = 42;\n`);
     });
 
     it('fixes all rules if an empty options object specified', async () => {
       const filepath = path.resolve(path.join(fixtureDir, './no-semi.js'));
       const [report] = await filteredFix.fix(filepath, {});
       expect(report.errorCount).toBe(0);
-      expect(shell.cat(filepath).toString()).toBe(`var foo = 42;${os.EOL}`);
+      expect(shell.cat(filepath).toString()).toBe(`var foo = 42;\n`);
     });
 
     it('applies fixes to files', async () => {
@@ -124,7 +123,7 @@ describe('filtered-fix', () => {
       const [report] = await eslintCli.lintFiles([filepath]);
       expect(report.errorCount).toBe(1);
       expect(report.filePath).toBe(filepath);
-      expect(shell.cat(filepath).toString()).toBe(`var foo = 42${os.EOL}`);
+      expect(shell.cat(filepath).toString()).toBe(`var foo = 42\n`);
     });
 
     it('performs fixes if rule is specified', async () => {
@@ -132,7 +131,7 @@ describe('filtered-fix', () => {
       const fixOptions = { rules: ['semi'] };
       const [report] = await filteredFix.fix(filepath, fixOptions);
       expect(report.errorCount).toBe(0);
-      expect(shell.cat(filepath).toString()).toBe(`var foo = 42;${os.EOL}`);
+      expect(shell.cat(filepath).toString()).toBe(`var foo = 42;\n`);
     });
 
     it('performs fixes for multiple rules', async () => {
@@ -141,7 +140,7 @@ describe('filtered-fix', () => {
       await filteredFix.fix(filepath, fixOptions);
       const [report] = await eslintCli.lintFiles([filepath]);
       expect(report.errorCount).toBe(1);
-      expect(shell.cat(filepath).toString()).toBe(`var foo = 42;${os.EOL}\nif (foo == 42) {${os.EOL}    foo++;${os.EOL}}${os.EOL}`);
+      expect(shell.cat(filepath).toString()).toBe(`var foo = 42;\n\nif (foo == 42) {\n    foo++;\n}\n`);
     });
 
     it('does not fix warnings if warnings option is false', async () => {
@@ -149,7 +148,7 @@ describe('filtered-fix', () => {
       const fixOptions = { warnings: false };
       const [report] = await filteredFix.fix(filepath, fixOptions);
       expect(report.warningCount).toBe(1);
-      expect(shell.cat(filepath).toString()).toBe(`var a = (b * c);${os.EOL}`);
+      expect(shell.cat(filepath).toString()).toBe(`var a = (b * c);\n`);
     });
 
     it('performs fixes for multiple files', async () => {
@@ -160,8 +159,8 @@ describe('filtered-fix', () => {
       const [report1, report2] = await eslintCli.lintFiles([filepath1, filepath2]);
       expect(report1.errorCount).toBe(1);
       expect(report2.errorCount).toBe(0);
-      expect(shell.cat(filepath1).toString()).toBe(`var foo = 42;${os.EOL}\nif (foo == 42) {${os.EOL}    foo++;${os.EOL}}${os.EOL}`);
-      expect(shell.cat(filepath2).toString()).toBe(`var foo = 42;${os.EOL}`);
+      expect(shell.cat(filepath1).toString()).toBe(`var foo = 42;\n\nif (foo == 42) {\n    foo++;\n}\n`);
+      expect(shell.cat(filepath2).toString()).toBe(`var foo = 42;\n`);
     });
 
     it('performs fixes for directories', async () => {
@@ -172,7 +171,7 @@ describe('filtered-fix', () => {
       const [extraParens] = reports;
       expect(extraParens.filePath.endsWith('extra-parens.js')).toBe(true);
       expect(extraParens.errorCount).toBe(0);
-      expect(shell.cat(extraParens.filePath).toString()).toBe(`var a = (b * c);${os.EOL}`);
+      expect(shell.cat(extraParens.filePath).toString()).toBe(`var a = (b * c);\n`);
     });
   });
 });
