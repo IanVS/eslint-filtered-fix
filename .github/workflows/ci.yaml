@@ -8,21 +8,23 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        node_version: [12, 14, 16, 17]
+        node_version: [18, 24]
         include:
           - os: macos-latest
-            node_version: 16
+            node_version: 24
           - os: windows-latest
-            node_version: 16
+            node_version: 24
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v5
       - name: Set node version to ${{ matrix.node_version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node_version }}
-          cache: yarn
+          cache: npm
       - name: install
-        run: yarn install --immutable
+        run: npm ci
+      - name: lint
+        run: npm run lint
       - name: test
-        run: yarn test --ci
+        run: npm test
